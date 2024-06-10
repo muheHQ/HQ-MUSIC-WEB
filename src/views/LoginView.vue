@@ -17,19 +17,20 @@
 <script>
 import axios from 'axios';
 // import router from '@/router';
-// import { HttpManager } from '../api/index.ts';
+import { HttpManager } from '../api/index.ts';
 
 export default {
   data() {
     return {
       username: '',
       password: '',
-      errorMessage: ''
+      errorMessage: ''  
     };
   },
   methods: {
     login() {
-      axios.post('http://localhost:8080/user/login/status', {
+      // axios.post('http://localhost:8080/user/login/status', {
+      HttpManager.signIn({
         username: this.username,
         password: this.password
       }).then(response => {

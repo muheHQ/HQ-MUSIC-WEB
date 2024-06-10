@@ -2,7 +2,7 @@
   <el-header class="header">
     <div class="logo">
       <img src="../img/hong.png" alt="Logo">
-      <h1 style="margin-left: 4px; font-size: 35px; color: #f4dde0">HQ-MUSIC</h1>
+      <h1 style="margin-left: 4px; font-size: 35px; color: #f4dde0">{{ MUSCINAME }}</h1>
     </div>
     <div class="links">
       <span @click="$router.push('/manage/home')">首页</span>
@@ -25,7 +25,9 @@
 </template>
 
 <script>
+import { MUSCINAME } from '@/enums/musicName';
 export default {
+
   data() {
     return {
       input: 'hong',

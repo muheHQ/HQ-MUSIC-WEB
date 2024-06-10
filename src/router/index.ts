@@ -43,22 +43,28 @@ const router = createRouter({
 // 路由守卫
 router.beforeEach(async (to, from, next) => {
   if (to.path.startsWith('/login')) {
-    window.localStorage.removeItem('token')
-    next()
+    window.localStorage.removeItem('token');
+    next();
   } else {
     const tokenString = window.localStorage.getItem('token');
     if (!tokenString) {
-      next('/login')
+      next('/login');
     } else {
       try {
-        const token = JSON.parse(tokenString).data.token;
-        const response = await axios.get('http://localhost:8080/checkToken', {
-          headers: { token }
-        });
-        if (response.data) {
-          next()
+        const tokenData = JSON.parse(tokenString);
+        if (tokenData && tokenData.token) {
+          const token = tokenData.token;
+          const response = await axios.get('http://localhost:8080/checkToken', {
+            headers: { token }
+          });
+          if (response.data) {
+            next();
+          } else {
+            console.log('令牌不合法，校验失败');
+            next('/login');
+          }
         } else {
-          console.log('令牌不合法，校验失败');
+          console.log('令牌数据格式不正确');
           next('/login');
         }
       } catch (error) {
